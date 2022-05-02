@@ -1,19 +1,21 @@
-#N canvas 530 129 815 318 12;
-#X obj 41 145 mrpeach/packOSC;
-#X obj 41 171 mrpeach/udpsend;
-#X msg 192 43 disconnect;
-#X obj 193 2 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000
-0 1;
-#X obj 193 22 sel 0;
-#X msg 42 41 send /app/quit 1;
-#X obj 419 194 mrpeach/unpackOSC;
-#X obj 419 222 print OSC;
-#X msg 223 66 connect 127.0.0.1 12344;
-#X msg 62 64 send /app/test 1;
-#X obj 581 235 print Status;
-#X msg 419 138 status;
-#X obj 419 167 mrpeach/udpreceive 12345;
-#X msg 16 19 send /app/ispi 1;
+#N canvas 527 54 815 318 12;
+#X obj 297 193 mrpeach/packOSC;
+#X obj 297 219 mrpeach/udpsend;
+#X msg 583 52 disconnect;
+#X obj 584 11 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
+#X obj 584 31 sel 0;
+#X msg 298 89 send /app/quit 1;
+#X obj 557 232 mrpeach/unpackOSC;
+#X obj 557 260 print OSC;
+#X msg 614 75 connect 127.0.0.1 12344;
+#X msg 318 112 send /app/test 1;
+#X obj 719 273 print Status;
+#X msg 557 176 status;
+#X obj 557 205 mrpeach/udpreceive 12345;
+#X msg 272 67 send /app/ispi 1;
+#X msg 128 115 send /video/test 1;
+#X msg 108 92 send /video/stop;
 #X connect 0 0 1 0;
 #X connect 2 0 1 0;
 #X connect 3 0 4 0;
@@ -27,3 +29,5 @@
 #X connect 12 0 6 0;
 #X connect 12 1 10 0;
 #X connect 13 0 0 0;
+#X connect 14 0 0 0;
+#X connect 15 0 0 0;
