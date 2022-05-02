@@ -1,3 +1,6 @@
+#Museum related things
+settings/userSettings.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
