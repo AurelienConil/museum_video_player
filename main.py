@@ -9,8 +9,8 @@ import threading
 import socket
 from pathlib import Path
 
-MAIN_PATH = "/home/Documents/museum_video_player"
-VIDEOFILE_PATH = "/home/Videos"
+MAIN_PATH = "/home/pi/Documents/museum_video_player"
+VIDEOFILE_PATH = "/home/pi/Videos"
 UNIVERSALMEDIAPLAYER_PATH = ""
 
 isPi = True
@@ -79,7 +79,7 @@ class SimpleServer(OSCServer):
             if(splitAddress[2] == "test"):
                 print("Start video TEST message")
                 if(isPi):
-                    omx_player = OMXPlayer(VIDEOFILE_PATH+"/test.mp4")
+                    omx_player = OMXPlayer(Path(VIDEOFILE_PATH+"/test.mp4"))
 
             
             if(splitAddress[2] == "stop"):
