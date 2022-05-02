@@ -1,0 +1,14 @@
+{
+    "metadata": {
+        "master": {
+            "ip": "192.168.0.102",
+            "port": 12347
+        },
+        "video": {
+            "screenNumbers": 2,
+            "vFlip" : false,
+            "hFlip" : true
+        }
+    }
+
+}

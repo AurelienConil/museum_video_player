@@ -1,0 +1,18 @@
+{
+    "metadata": {
+        "master": {
+            "ip": "127.0.0.1",
+            "port": 12345
+        },
+        "identity":{
+            "name" : "anonymous",
+            "floor" :1
+        },
+        "video": {
+            "screenNumbers": 2,
+            "vFlip" : false,
+            "hFlip" : true
+        }
+    }
+
+}
