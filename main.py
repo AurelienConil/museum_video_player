@@ -7,9 +7,10 @@ from OSC import OSCClient, OSCMessage, OSCServer
 import time
 import threading
 import socket
+from pathlib import Path
 
-MAIN_PATH = "/Users/adminmac/Boulot/JeanGiraudoux/GIT/museum_video_player"
-VIDEOFILE_PATH = "/Users/adminmac/Boulot/JeanGiraudoux/GIT/museum_video_player/media"
+MAIN_PATH = "/home/Documents/museum_video_player"
+VIDEOFILE_PATH = "/home/Videos"
 UNIVERSALMEDIAPLAYER_PATH = ""
 
 isPi = True
@@ -43,6 +44,7 @@ class SimpleServer(OSCServer):
         global client
         global isPlayingMovie
         global runningApp
+        global omx_player
         print("OSC message received on : "+oscAddress)
         print("data: ")
         print(data)
@@ -73,9 +75,17 @@ class SimpleServer(OSCServer):
             
             if(splitAddress[2] == "start"):
                 print("Start video TEST message")
+
+            if(splitAddress[2] == "test"):
+                print("Start video TEST message")
+                if(isPi):
+                    omx_player = OMXPlayer(VIDEOFILE_PATH+"/test.mp4")
+
             
             if(splitAddress[2] == "stop"):
                 print("Stop video TEST message")
+                if(isPi):
+                    omx_player.quit()
         
             if(splitAddress[2] == "pause"):
                 print("Pause video TEST message")
@@ -164,6 +174,9 @@ def main():
     mip = userSettingsData["metadata"]["master"]["ip"]
     mport = userSettingsData["metadata"]["master"]["port"]
     client_master.connect((mip, mport))
+
+    # OMX PLAYER INSTANCE
+    global omx_player
 
 
     # MAIN LOOP
