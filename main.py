@@ -12,7 +12,7 @@ import sys
 
 MAIN_PATH = "/home/pi/Documents/museum_video_player"
 VIDEOFILE_PATH = "/home/pi/Videos" # Long term in fat32 partition
-USER_SETTINGS_PATH = VIDEOFILE_PATH+"/settings/UserSettings.json" # better close to the video file : fat32 editing
+USER_SETTINGS_PATH = VIDEOFILE_PATH+"/settings/userSettings.json" # better close to the video file : fat32 editing
 DEFAULT_SETTINGS_PATH = MAIN_PATH+"/settings/defaultSettings.json"
 
 isPi = True
