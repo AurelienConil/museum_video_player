@@ -10,28 +10,28 @@ import socket
 from pathlib import Path
 
 MAIN_PATH = "/home/pi/Documents/museum_video_player"
-VIDEOFILE_PATH = "/home/pi/Videos"
-UNIVERSALMEDIAPLAYER_PATH = ""
+VIDEOFILE_PATH = "/home/pi/Videos" # Long term in fat32 partition
+USER_SETTINGS_PATH = VIDEOFILE_PATH+"/settings/UserSettings.json" # better close to the video file : fat32 editing
+DEFAULT_SETTINGS_PATH = MAIN_PATH+"/settings/defaultSettings.json"
 
 isPi = True
 if (platform.machine().startswith("x86")):
     isPi = False
     if(platform.system() == "Darwin" and getpass.getuser()=='adminmac'):
         #mac os et Aurelien Conil
-        VIDEOFILE_PATH = "/Users/adminmac/Boulot/Radiologic/GIT/radiologic2"
-        UNIVERSALMEDIAPLAYER_PATH = "/Users/adminmac/Boulot/Universal-Media-Player/GIT/universalMediaPlayer"
+        MAIN_PATH = "/Users/adminmac/Boulot/JeanGiraudoux/GIT/museum_video_player"
+        VIDEOFILE_PATH = "/Users/adminmac/Movies/JeanGiraudoux"
     elif(platform.system() == "Darwin" and getpass.getuser()!='collor_nor'):
         #print("Martin Rossi, tu dois mettre les chemin a l'interrieur du programme python")
         #mac os et Martin Rossi (COLL OR_NOR)
-        VIDEOFILE_PATH = "/Users/collor_nor/Documents/DEV/repos/Radiologic\ Project/radiologic2"
-        UNIVERSALMEDIAPLAYER_PATH = "/Users/collor_nor/Documents/DEV/repos/Radiologic\ Project/universalMediaPlayer"
+        VIDEOFILE_PATH = ""
 
 if(isPi):
     from omxplayer.player import OMXPlayer
 
-USER_SETTINGS_PATH = MAIN_PATH+"/settings/UserSettings.json"
-DEFAULT_SETTINGS_PATH = MAIN_PATH+"/settings/defaultSettings.json"
-GLOBAL_SETTINGS_PATH = MAIN_PATH+"/data/datajson.json"
+
+
+GLOBAL_SETTINGS_PATH = MAIN_PATH+"/data/datajson.json" #NOT USED : TODO DELETE
 
 class SimpleServer(OSCServer):
     def __init__(self, t):
@@ -75,6 +75,8 @@ class SimpleServer(OSCServer):
             
             if(splitAddress[2] == "start"):
                 print("Start video TEST message")
+                if(isPi) and len(data)>0:
+                    playVideo(data[0])
 
             if(splitAddress[2] == "test"):
                 print("Start video TEST message")
@@ -95,12 +97,47 @@ class SimpleServer(OSCServer):
         elif(splitAddress[1] == "rpi"):
             if(splitAddress[2] == "shutdown"):
                 print("Turning off the rpi")
-                setVeille(True)
-                powerOff()
+                #setVeille(True) # NOT IMPLETEMED YET
+                #powerOff() # NOT IMPLETEMED YET
             if(splitAddress[2] == "reboot"):
                 print("Reboot the machine")
-                setVeille(True)
-                reboot()
+                #setVeille(True) # NOT IMPLETEMED YET
+                #reboot() # NOT IMPLETEMED YET
+
+# Video player works with 1 or 2 screen according to setting file
+# With 1 screen data[0].mp4 is played
+# With 2 screns data[0].mp4 and data[0]2.mp4 is played
+# File existing test is only testing the first file : be carefull !
+def playVideo(data):
+    global videoPlayer1
+    global videoPlayer2
+    global userSettingsData
+
+    nbScreen = userSettingsData["video"]["screenNumber"]
+    videoFileName = data[0]
+    path = VIDEOFILE_PATH+"/"+videoFileName
+    fileExist = os.path.exists(path+".mp4")
+    print("PLAY VIDEO FILE :"+videoFileName)
+    print("complete path: "+path)
+    print(" File exist ? "+fileExist)
+
+    if(nbScreen == 1 and fileExist):
+        if(videoPlayer1.canQuit()):
+            videoPlayer1.quit()
+        videoPlayer1  = OMXPlayer(Path(path+".mp4"))
+
+    elif(nbScreen == 2 and fileExist):
+        if(videoPlayer1.canQuit()):
+            videoPlayer1.quit()
+        if(videoPlayer2.canQuit()):
+            videoPlayer2.quit()
+        videoPlayer1 = OMXPlayer(path+".mp4", dbus_name='org.mpris.MediaPlayer2.omxplayer1', args=['--no-osd','--no-keys','-b','--display=2','-o','local'])
+        videoPlayer2 = OMXPlayer(path+"2.mp4", dbus_name='org.mpris.MediaPlayer2.omxplayer2', args=['--no-osd','--no-keys','-b','--display=7',])
+
+    else:
+        print("ERROR : NbScreen is wrong or file does not exist ! Playing aborted")
+    
+
 
 def update():
     print("========= UPDATE PYTHON SCRIPT ======")
@@ -145,6 +182,7 @@ def main():
 
     print(" ===== init settings ====")
     # will ensure any default settings are present in datajson/metadata
+    # TODO test minimum configuration is available, otherwise, kill with error message 
     initSettings()
 
 
@@ -173,10 +211,12 @@ def main():
     client_master = OSCClient()
     mip = userSettingsData["metadata"]["master"]["ip"]
     mport = userSettingsData["metadata"]["master"]["port"]
+    print("Client OSC to master | ip: "+mip+"  | port: "+mport)
     client_master.connect((mip, mport))
 
     # OMX PLAYER INSTANCE
-    global omx_player
+    global omx_player1
+    global omx_player2
 
 
     # MAIN LOOP

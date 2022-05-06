@@ -9,7 +9,7 @@
             "floor" :1
         },
         "video": {
-            "screenNumbers": 2,
+            "screenNumber": 2,
             "vFlip" : false,
             "hFlip" : true
         }
