@@ -47,7 +47,8 @@ class SimpleServer(OSCServer):
         global client
         global isPlayingMovie
         global runningApp
-        global omx_player
+        global omx_player1
+        global omx_player2
         print("OSC message received on : "+oscAddress)
         print("data: ")
         print(data)
@@ -84,8 +85,11 @@ class SimpleServer(OSCServer):
             if(splitAddress[2] == "test"):
                 print("Start video TEST message")
                 if(isPi):
-                    omx_player = OMXPlayer(Path(VIDEOFILE_PATH+"/test.mp4"))
+                    omx_player1 = OMXPlayer(Path(VIDEOFILE_PATH+"/test.mp4"))
 
+            if(splitAddress[2] == "status"):
+                print("Get Status of video player1")
+                sendTestToMaster(omx_player1.playback_status())
             
             if(splitAddress[2] == "stop"):
                 print("Stop video TEST message")
@@ -164,6 +168,9 @@ def initSettings():
     settingsFilePath = DEFAULT_SETTINGS_PATH
     if(os.path.exists(USER_SETTINGS_PATH)):
         settingsFilePath = USER_SETTINGS_PATH
+        print("SETTINGS : user setting")
+    else:
+        print("SETTING : default ")
 
     with open(settingsFilePath, 'r') as userFp:
         userSettingsData = json.load(userFp)
