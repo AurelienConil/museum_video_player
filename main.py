@@ -8,6 +8,7 @@ import time
 import threading
 import socket
 from pathlib import Path
+import sys
 
 MAIN_PATH = "/home/pi/Documents/museum_video_player"
 VIDEOFILE_PATH = "/home/pi/Videos" # Long term in fat32 partition
@@ -21,6 +22,8 @@ if (platform.machine().startswith("x86")):
         #mac os et Aurelien Conil
         MAIN_PATH = "/Users/adminmac/Boulot/JeanGiraudoux/GIT/museum_video_player"
         VIDEOFILE_PATH = "/Users/adminmac/Movies/JeanGiraudoux"
+        USER_SETTINGS_PATH = VIDEOFILE_PATH+"/settings/UserSettings.json" # better close to the video file : fat32 editing
+        DEFAULT_SETTINGS_PATH = MAIN_PATH+"/settings/defaultSettings.json"
     elif(platform.system() == "Darwin" and getpass.getuser()!='collor_nor'):
         #print("Martin Rossi, tu dois mettre les chemin a l'interrieur du programme python")
         #mac os et Martin Rossi (COLL OR_NOR)
@@ -188,13 +191,16 @@ def main():
 
     # OSC SERVER
     # myip = get_ip()
+    print(" ===== OSC SERVER ====")
     myip = "0.0.0.0"
     print("IP adress is : "+myip)
     try:
         server = SimpleServer((myip, 12344))
-    except:
+        print("server created")
+    except :
         print(" ERROR : creating server")
-    print("server created")
+        print("Unexpected error:", sys.exc_info()[0])
+        
     try:
         st = threading.Thread(target=server.serve_forever)
     except:
@@ -206,12 +212,13 @@ def main():
 
     print(" OSC server is running")
 
-    # OSC CLIENT : OPENFRAMEWORKS APP
+    # OSC CLIENT : send osc message
+    print(" ===== OSC CLIENT ====")
     global client_master
     client_master = OSCClient()
     mip = userSettingsData["metadata"]["master"]["ip"]
     mport = userSettingsData["metadata"]["master"]["port"]
-    print("Client OSC to master | ip: "+mip+"  | port: "+mport)
+    print("Client OSC to master | ip: "+mip+"  | port: "+str(mport))
     client_master.connect((mip, mport))
 
     # OMX PLAYER INSTANCE
