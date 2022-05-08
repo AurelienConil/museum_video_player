@@ -136,7 +136,11 @@ def playVideo(videoFileName):
     fileExist = os.path.exists(path+".mp4")
     print("PLAY VIDEO FILE :"+videoFileName)
     print("complete path: "+path)
-    print(" File exist ? "+fileExist)
+    if(fileExist):
+        print(" File exist :YES")
+    else:
+        print(" File exist :NO")
+
 
     if(nbScreen == 1 and fileExist):
         print("Play video : 2 screens")
@@ -194,7 +198,7 @@ def initSettings():
     with open(settingsFilePath, 'r') as userFp:
         userSettingsData = json.load(userFp)
 
-def get_ip():
+def get_ip():   
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
         # doesn't even have to be reachable
