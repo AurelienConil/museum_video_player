@@ -101,10 +101,10 @@ class SimpleServer(OSCServer):
                 print("Stop video TEST message")
                 if(isPi):
                     if(not(omx_player1 is None)):
-                        if(omx_player1.canQuit()):
+                        if(omx_player1.can_quit()()):
                             omx_player1.quit()
                     if(not(omx_player2 is None)):
-                        if(omx_player2.canQuit()):
+                        if(omx_player2.can_quit()()):
                             omx_player2.quit()
         
             if(splitAddress[2] == "pause"):
@@ -143,7 +143,7 @@ def playVideo(videoFileName):
 
 
     if(nbScreen == 1 and fileExist):
-        print("Play video : 2 screens")
+        print("Play video : 1 screen")
         if(not(omx_player1 is None)):
             omx_player1.quit()
         omx_player1  = OMXPlayer(Path(path+".mp4"))
