@@ -115,13 +115,12 @@ class SimpleServer(OSCServer):
 # With 1 screen data[0].mp4 is played
 # With 2 screns data[0].mp4 and data[0]2.mp4 is played
 # File existing test is only testing the first file : be carefull !
-def playVideo(data):
+def playVideo(videoFileName):
     global videoPlayer1
     global videoPlayer2
     global userSettingsData
 
     nbScreen = userSettingsData["video"]["screenNumber"]
-    videoFileName = data[0]
     path = VIDEOFILE_PATH+"/"+videoFileName
     fileExist = os.path.exists(path+".mp4")
     print("PLAY VIDEO FILE :"+videoFileName)
@@ -129,11 +128,13 @@ def playVideo(data):
     print(" File exist ? "+fileExist)
 
     if(nbScreen == 1 and fileExist):
+        print("Play video : 2 screens")
         if(videoPlayer1.canQuit()):
             videoPlayer1.quit()
         videoPlayer1  = OMXPlayer(Path(path+".mp4"))
 
     elif(nbScreen == 2 and fileExist):
+        print("Play video : 2 screens")
         if(videoPlayer1.canQuit()):
             videoPlayer1.quit()
         if(videoPlayer2.canQuit()):
