@@ -94,7 +94,10 @@ class SimpleServer(OSCServer):
             if(splitAddress[2] == "stop"):
                 print("Stop video TEST message")
                 if(isPi):
-                    omx_player.quit()
+                    if(videoPlayer1.canQuit()):
+                        videoPlayer1.quit()
+                    if(videoPlayer2.canQuit()):
+                        videoPlayer2.quit()
         
             if(splitAddress[2] == "pause"):
                 print("Pause video TEST message")
