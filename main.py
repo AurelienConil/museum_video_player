@@ -85,19 +85,26 @@ class SimpleServer(OSCServer):
             if(splitAddress[2] == "test"):
                 print("Start video TEST message")
                 if(isPi):
+                    if(not(omx_player1 is None)):
+                        omx_player1.quit()
                     omx_player1 = OMXPlayer(Path(VIDEOFILE_PATH+"/test.mp4"))
 
             if(splitAddress[2] == "status"):
                 print("Get Status of video player1")
-                sendTestToMaster(omx_player1.playback_status())
+                if(not(omx_player1 is None)):
+                    sendToMaster("status", omx_player1.playback_status())
+                else :
+                    sendTestToMaster("status", "none")
             
             if(splitAddress[2] == "stop"):
                 print("Stop video TEST message")
                 if(isPi):
-                    if(omx_player1.canQuit()):
-                        omx_player1.quit()
-                    if(omx_player2.canQuit()):
-                        omx_player2.quit()
+                    if(not(omx_player1 is None)):
+                        if(omx_player1.canQuit()):
+                            omx_player1.quit()
+                    if(not(omx_player2 is None)):
+                        if(omx_player2.canQuit()):
+                            omx_player2.quit()
         
             if(splitAddress[2] == "pause"):
                 print("Pause video TEST message")
@@ -132,15 +139,15 @@ def playVideo(videoFileName):
 
     if(nbScreen == 1 and fileExist):
         print("Play video : 2 screens")
-        if(omx_player1.canQuit()):
+        if(not(omx_player1 is None)):
             omx_player1.quit()
         omx_player1  = OMXPlayer(Path(path+".mp4"))
 
     elif(nbScreen == 2 and fileExist):
         print("Play video : 2 screens")
-        if(omx_player1.canQuit()):
+        if(not(omx_player1 is None)):
             omx_player1.quit()
-        if(omx_player2.canQuit()):
+        if(not(omx_player2 is None)):
             omx_player2.quit()
         omx_player1 = OMXPlayer(path+".mp4", dbus_name='org.mpris.MediaPlayer2.omxplayer1', args=['--no-osd','--no-keys','-b','--display=2','-o','local'])
         omx_player2 = OMXPlayer(path+"2.mp4", dbus_name='org.mpris.MediaPlayer2.omxplayer2', args=['--no-osd','--no-keys','-b','--display=7',])
@@ -160,6 +167,13 @@ def sendTestToMaster(arg):
     global client_master
     oscmsg = OSCMessage()
     oscmsg.setAddress("/test")
+    oscmsg.append(arg)
+    client_master.send(oscmsg)
+
+def sendToMaster(adress, arg):
+    global client_master
+    oscmsg = OSCMessage()
+    oscmsg.setAddress("/"+adress)
     oscmsg.append(arg)
     client_master.send(oscmsg)
 
@@ -243,6 +257,9 @@ def main():
     # OMX PLAYER INSTANCE
     global omx_player1
     global omx_player2
+    omx_player1 = None
+    omx_player2 = None
+
 
 
     # MAIN LOOP
