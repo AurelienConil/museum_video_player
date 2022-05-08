@@ -48,7 +48,7 @@ class SimpleServer(OSCServer):
         global isPlayingMovie
         global runningApp
         global omx_player1
-        global omx_player2
+        global omx_player2  
         print("OSC message received on : "+oscAddress)
         print("data: ")
         print(data)
@@ -94,10 +94,10 @@ class SimpleServer(OSCServer):
             if(splitAddress[2] == "stop"):
                 print("Stop video TEST message")
                 if(isPi):
-                    if(videoPlayer1.canQuit()):
-                        videoPlayer1.quit()
-                    if(videoPlayer2.canQuit()):
-                        videoPlayer2.quit()
+                    if(omx_player1.canQuit()):
+                        omx_player1.quit()
+                    if(omx_player2.canQuit()):
+                        omx_player2.quit()
         
             if(splitAddress[2] == "pause"):
                 print("Pause video TEST message")
@@ -119,8 +119,8 @@ class SimpleServer(OSCServer):
 # With 2 screns data[0].mp4 and data[0]2.mp4 is played
 # File existing test is only testing the first file : be carefull !
 def playVideo(videoFileName):
-    global videoPlayer1
-    global videoPlayer2
+    global omx_player1
+    global omx_player2
     global userSettingsData
 
     nbScreen = userSettingsData["video"]["screenNumber"]
@@ -132,18 +132,18 @@ def playVideo(videoFileName):
 
     if(nbScreen == 1 and fileExist):
         print("Play video : 2 screens")
-        if(videoPlayer1.canQuit()):
-            videoPlayer1.quit()
-        videoPlayer1  = OMXPlayer(Path(path+".mp4"))
+        if(omx_player1.canQuit()):
+            omx_player1.quit()
+        omx_player1  = OMXPlayer(Path(path+".mp4"))
 
     elif(nbScreen == 2 and fileExist):
         print("Play video : 2 screens")
-        if(videoPlayer1.canQuit()):
-            videoPlayer1.quit()
-        if(videoPlayer2.canQuit()):
-            videoPlayer2.quit()
-        videoPlayer1 = OMXPlayer(path+".mp4", dbus_name='org.mpris.MediaPlayer2.omxplayer1', args=['--no-osd','--no-keys','-b','--display=2','-o','local'])
-        videoPlayer2 = OMXPlayer(path+"2.mp4", dbus_name='org.mpris.MediaPlayer2.omxplayer2', args=['--no-osd','--no-keys','-b','--display=7',])
+        if(omx_player1.canQuit()):
+            omx_player1.quit()
+        if(omx_player2.canQuit()):
+            omx_player2.quit()
+        omx_player1 = OMXPlayer(path+".mp4", dbus_name='org.mpris.MediaPlayer2.omxplayer1', args=['--no-osd','--no-keys','-b','--display=2','-o','local'])
+        omx_player2 = OMXPlayer(path+"2.mp4", dbus_name='org.mpris.MediaPlayer2.omxplayer2', args=['--no-osd','--no-keys','-b','--display=7',])
 
     else:
         print("ERROR : NbScreen is wrong or file does not exist ! Playing aborted")
