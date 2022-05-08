@@ -94,7 +94,7 @@ class SimpleServer(OSCServer):
                 if(not(omx_player1 is None)):
                     sendToMaster("status", omx_player1.playback_status())
                 else :
-                    sendTestToMaster("status", "none")
+                    sendToMaster("status", "none")
             
             if(splitAddress[2] == "stop"):
                 print("Stop video TEST message")
