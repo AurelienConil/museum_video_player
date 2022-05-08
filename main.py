@@ -67,6 +67,7 @@ class SimpleServer(OSCServer):
                 print(isPi)
                 
             if(splitAddress[2]=="quit"):
+                print("Quitting the app : runningApp=false")
                 runningApp = False
                 
             if(splitAddress[2] == "update"):
@@ -292,6 +293,7 @@ def main():
             print("User attempt to close programm")
             runningApp = False
 
+    print("Main loop is quit. Closing software")
     # Closing omx instances
     print("STOP video first")
     stopAllVideo()
