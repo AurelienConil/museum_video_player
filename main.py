@@ -94,8 +94,10 @@ class SimpleServer(OSCServer):
                 print("Get Status of video player1")
                 if(not(omx_player1 is None)):
                     sendToMaster("status", omx_player1.playback_status())
+                    print("OMX player STATUS : "+omx_player1.playback_status())
                 else :
                     sendToMaster("status", "none")
+                    print("OMX player STATUS : None")
             
             if(splitAddress[2] == "stop"):
                 print("Stop video TEST message")
@@ -161,12 +163,12 @@ def stopAllVideo():
     global omx_player2
 
     if(not(omx_player1 is None)):
-        if(omx_player1.can_quit()()):
+        if(omx_player1.can_quit()):
             print("omxplayer 1 can quit")
             omx_player1.quit()
             print("omxplayer 1 : quit")
     if(not(omx_player2 is None)):
-        if(omx_player2.can_quit()()):
+        if(omx_player2.can_quit()):
             print("omxplayer 2 can quit")
             omx_player2.quit()
             print("omxplayer2 quit")
