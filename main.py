@@ -211,15 +211,23 @@ def main():
     except :
         print(" ERROR : creating server")
         print("Unexpected error:", sys.exc_info()[0])
+        #Exit or Terminate successfully
+        sys.exit(0)
         
     try:
         st = threading.Thread(target=server.serve_forever)
     except:
         print(" ERROR : creating thread")
+        print("Unexpected error:", sys.exc_info()[0])
+        #Exit or Terminate successfully
+        sys.exit(0)
     try:
         st.start()
     except:
         print(" ERROR : starting thread")
+        print("Unexpected error:", sys.exc_info()[0])
+        #Exit or Terminate successfully
+        sys.exit(0)
 
     print(" OSC server is running")
 
