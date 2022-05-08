@@ -9,13 +9,13 @@ with open(DEFAULT_SETTINGS_PATH, 'r') as userFp:
     userSettingsData = json.load(userFp)
 
 print("Master IP")
-print(userSettingsData["metadata"]["master"]["ip"])
+print(userSettingsData["master"]["ip"])
 
 print("Master port")
-print(userSettingsData["metadata"]["master"]["port"])
+print(userSettingsData["master"]["port"])
 
 print("Raspberry pi name")
-print(userSettingsData["metadata"]["identity"]["name"])
+print(userSettingsData["identity"]["name"])
 
 print("Raspberry pi video screen number")
 print(userSettingsData["video"]["screenNumber"])

@@ -78,8 +78,9 @@ class SimpleServer(OSCServer):
         if(splitAddress[1] == "video"):
             
             if(splitAddress[2] == "start"):
-                print("Start video TEST message")
+                print("Start video message")
                 if(isPi) and len(data)>0:
+                    print("Play video on PI:"+data[0]+".mp4")
                     playVideo(data[0])
 
             if(splitAddress[2] == "test"):
@@ -249,8 +250,8 @@ def main():
     print(" ===== OSC CLIENT ====")
     global client_master
     client_master = OSCClient()
-    mip = userSettingsData["metadata"]["master"]["ip"]
-    mport = userSettingsData["metadata"]["master"]["port"]
+    mip = userSettingsData["master"]["ip"]
+    mport = userSettingsData["master"]["port"]
     print("Client OSC to master | ip: "+mip+"  | port: "+str(mport))
     client_master.connect((mip, mport))
 
