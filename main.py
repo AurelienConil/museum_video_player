@@ -100,12 +100,8 @@ class SimpleServer(OSCServer):
             if(splitAddress[2] == "stop"):
                 print("Stop video TEST message")
                 if(isPi):
-                    if(not(omx_player1 is None)):
-                        if(omx_player1.can_quit()()):
-                            omx_player1.quit()
-                    if(not(omx_player2 is None)):
-                        if(omx_player2.can_quit()()):
-                            omx_player2.quit()
+                    stopAllVideo()
+
         
             if(splitAddress[2] == "pause"):
                 print("Pause video TEST message")
@@ -159,8 +155,21 @@ def playVideo(videoFileName):
 
     else:
         print("ERROR : NbScreen is wrong or file does not exist ! Playing aborted")
-    
 
+def stopAllVideo():
+    global omx_player1
+    global omx_player2
+
+    if(not(omx_player1 is None)):
+        if(omx_player1.can_quit()()):
+            print("omxplayer 1 can quit")
+            omx_player1.quit()
+            print("omxplayer 1 : quit")
+    if(not(omx_player2 is None)):
+        if(omx_player2.can_quit()()):
+            print("omxplayer 2 can quit")
+            omx_player2.quit()
+            print("omxplayer2 quit")
 
 def update():
     print("========= UPDATE PYTHON SCRIPT ======")
@@ -281,6 +290,9 @@ def main():
             print("User attempt to close programm")
             runningApp = False
 
+    # Closing omx instances
+    print("STOP video first")
+    stopAllVideo()
     # CLOSING THREAD AND SERVER
     print(" Ending programme")
     server.running = False
