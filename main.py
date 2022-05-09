@@ -150,8 +150,8 @@ def playVideo(videoFileName, isLoop):
         if(isLoop):
             listOfArgs.append('--loop')
         omx_player1  = OMXPlayer(Path(path+".mp4"),dbus_name='org.mpris.MediaPlayer2.omxplayer1',args=listOfArgs)
-        omx_player1.stopEvent += playerEvent("stop")
-        omx_player1.exitEvent += playerEvent("exit") 
+        omx_player1.stopEvent += playerEvent
+        omx_player1.exitEvent += playerEvent
 
     elif(nbScreen == 2 and fileExist):
         print("Play video : 2 screens")
