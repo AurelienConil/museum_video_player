@@ -1,23 +1,24 @@
-#N canvas 38 291 865 354 12;
-#X obj 297 193 mrpeach/packOSC;
-#X obj 297 219 mrpeach/udpsend;
-#X msg 583 52 disconnect;
-#X obj 584 11 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#N canvas 39 434 769 385 12;
+#X obj 243 237 mrpeach/packOSC;
+#X obj 243 263 mrpeach/udpsend;
+#X msg 529 96 disconnect;
+#X obj 530 55 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
 #000000 0 1;
-#X obj 584 31 sel 0;
-#X msg 298 89 send /app/quit 1;
-#X obj 557 232 mrpeach/unpackOSC;
-#X msg 318 112 send /app/test 1;
-#X obj 719 273 print Status;
-#X msg 557 176 status;
-#X obj 557 205 mrpeach/udpreceive 12345;
-#X msg 272 67 send /app/ispi 1;
-#X msg 128 115 send /video/test 1;
-#X msg 108 92 send /video/stop;
-#X msg 640 162 port 12345;
-#X msg 613 75 connect 192.168.0.41 12344;
-#X obj 557 260 print OSC_received;
-#X msg 84 61 send /video/start vid;
+#X obj 530 75 sel 0;
+#X msg 244 133 send /app/quit 1;
+#X obj 503 276 mrpeach/unpackOSC;
+#X msg 264 156 send /app/test 1;
+#X obj 665 317 print Status;
+#X msg 503 220 status;
+#X obj 503 249 mrpeach/udpreceive 12345;
+#X msg 218 111 send /app/ispi 1;
+#X msg 74 159 send /video/test 1;
+#X msg 54 136 send /video/stop;
+#X msg 586 206 port 12345;
+#X msg 559 119 connect 192.168.0.41 12344;
+#X obj 503 304 print OSC_received;
+#X msg 30 105 send /video/start vid;
+#X msg 16 78 send /video/status 0;
 #X connect 0 0 1 0;
 #X connect 2 0 1 0;
 #X connect 3 0 4 0;
@@ -35,3 +36,4 @@
 #X connect 14 0 10 0;
 #X connect 15 0 1 0;
 #X connect 17 0 0 0;
+#X connect 18 0 0 0;

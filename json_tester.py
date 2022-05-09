@@ -27,3 +27,9 @@ print(userSettingsData["identity"]["name"])
 
 print("Raspberry pi video screen number")
 print(userSettingsData["video"]["screenNumber"])
+
+print("Main media file name")
+print(userSettingsData["playlist"]["mainMediaPath"]+".mp4")
+
+print("Secondary media file name")
+print(userSettingsData["playlist"]["waitingMediaPath"]+".mp4")

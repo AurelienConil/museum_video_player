@@ -82,7 +82,7 @@ class SimpleServer(OSCServer):
                 print("Start video message")
                 if(isPi) and len(data)>0:
                     print("Play video on PI:"+data[0]+".mp4")
-                    playVideo(data[0])
+                    playVideo(data[0], False)
 
             if(splitAddress[2] == "test"):
                 print("Start video TEST message")
@@ -125,7 +125,7 @@ class SimpleServer(OSCServer):
 # With 1 screen data[0].mp4 is played
 # With 2 screns data[0].mp4 and data[0]2.mp4 is played
 # File existing test is only testing the first file : be carefull !
-def playVideo(videoFileName):
+def playVideo(videoFileName, isLoop):
     global omx_player1
     global omx_player2
     global userSettingsData
@@ -145,7 +145,13 @@ def playVideo(videoFileName):
         print("Play video : 1 screen")
         if(not(omx_player1 is None)):
             omx_player1.quit()
-        omx_player1  = OMXPlayer(Path(path+".mp4"))
+        
+        listOfArgs = ['--no-osd','--no-keys','-b','-o','local'] # local mean audio local, can be replaced with hdmi
+        if(isLoop):
+            listOfArgs.append('--loop')
+        omx_player1  = OMXPlayer(Path(path+".mp4"),dbus_name='org.mpris.MediaPlayer2.omxplayer1',args=listOfArgs)
+        omx_player1.stopEvent += playerEvent("stop")
+        omx_player1.exitEvent += playerEvent("exit") 
 
     elif(nbScreen == 2 and fileExist):
         print("Play video : 2 screens")
@@ -153,8 +159,11 @@ def playVideo(videoFileName):
             omx_player1.quit()
         if(not(omx_player2 is None)):
             omx_player2.quit()
-        omx_player1 = OMXPlayer(path+".mp4", dbus_name='org.mpris.MediaPlayer2.omxplayer1', args=['--no-osd','--no-keys','-b','--display=2','-o','local'])
-        omx_player2 = OMXPlayer(path+"2.mp4", dbus_name='org.mpris.MediaPlayer2.omxplayer2', args=['--no-osd','--no-keys','-b','--display=7',])
+        listOfArgs = ['--no-osd','--no-keys','-b','-o','local'] # local mean audio local, can be replaced with hdmi
+        if(isLoop):
+            listOfArgs.append('--loop')
+        omx_player1 = OMXPlayer(Path(path+".mp4"), dbus_name='org.mpris.MediaPlayer2.omxplayer1', args=listOfArgs.append('--display=2'))
+        omx_player2 = OMXPlayer(Path(path+"2.mp4"), dbus_name='org.mpris.MediaPlayer2.omxplayer2', args=listOfArgs.append('--display=7'))
 
     else:
         print("ERROR : NbScreen is wrong or file does not exist ! Playing aborted")
@@ -194,6 +203,9 @@ def sendToMaster(adress, arg):
     oscmsg.append(arg)
     client_master.send(oscmsg)
 
+def playerEvent(eventName):
+    print("This is a player event : "+str(eventName))
+
 
 def initSettings():
     global userSettingsData
@@ -229,6 +241,10 @@ def main():
     # will ensure any default settings are present in datajson/metadata
     # TODO test minimum configuration is available, otherwise, kill with error message 
     initSettings()
+
+    # TODO : add a try on every call on omxplayer, and avoid any risk of crash
+    # Function to add set_volume(volume)
+    #  
 
 
     # OSC SERVER

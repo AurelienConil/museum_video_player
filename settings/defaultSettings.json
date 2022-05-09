@@ -12,7 +12,12 @@
         "screenNumber": 2,
         "vFlip" : false,
         "hFlip" : true
+    },
+    "playlist": {
+        "mainMediaPath": "main",
+        "waitingMediaPath" : "wait"
     }
+
 
 
 }
