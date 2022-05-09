@@ -164,6 +164,8 @@ def playVideo(videoFileName, isLoop):
             listOfArgs.append('--loop')
         omx_player1 = OMXPlayer(Path(path+".mp4"), dbus_name='org.mpris.MediaPlayer2.omxplayer1', args=listOfArgs.append('--display=2'))
         omx_player2 = OMXPlayer(Path(path+"2.mp4"), dbus_name='org.mpris.MediaPlayer2.omxplayer2', args=listOfArgs.append('--display=7'))
+        #TODO : add event callback here
+
 
     else:
         print("ERROR : NbScreen is wrong or file does not exist ! Playing aborted")
@@ -173,15 +175,25 @@ def stopAllVideo():
     global omx_player2
 
     if(not(omx_player1 is None)):
-        if(omx_player1.can_quit()):
-            print("omxplayer 1 can quit")
-            omx_player1.quit()
-            print("omxplayer 1 : quit")
+        try:
+            if(omx_player1.can_quit()):
+                print("omxplayer 1 can quit")
+                omx_player1.quit()
+                print("omxplayer 1 : quit")
+        except :
+            print(" ERROR : quitting omxplayer1")
+            print("Unexpected error:", sys.exc_info()[0])
+
+        
     if(not(omx_player2 is None)):
-        if(omx_player2.can_quit()):
-            print("omxplayer 2 can quit")
-            omx_player2.quit()
-            print("omxplayer2 quit")
+        try:
+            if(omx_player2.can_quit()):
+                print("omxplayer 2 can quit")
+                omx_player2.quit()
+                print("omxplayer2 quit")
+        except :
+            print(" ERROR : quitting omxplayer2")
+            print("Unexpected error:", sys.exc_info()[0])
 
 def update():
     print("========= UPDATE PYTHON SCRIPT ======")
@@ -203,15 +215,21 @@ def sendToMaster(adress, arg):
     oscmsg.append(arg)
     client_master.send(oscmsg)
 
-def playerEvent(arg1, arg2):
+def player1Event(arg1, arg2):
     global omx_player1
-    print("*** This is a player event ***" )
+    print("*** This is a player1 event ***" )
     print(arg1)
     print(arg2)
-    if(omx_player1.can_quit()):
-        print("Player can quit ")
-    else :
-        print("Player can not quit ")
+    omx_player1 = None
+    print("omx_player1 = None " )
+
+def player2Event(arg1, arg2):
+    global omx_player2
+    print("*** This is a player2 event ***" )
+    print(arg1)
+    print(arg2)
+    omx_player2 = None
+    print("omx_player2 = None " )
 
 
 
