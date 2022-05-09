@@ -160,11 +160,11 @@ def playVideo(videoFileName, isLoop):
             omx_player1.quit()
         if(not(omx_player2 is None)):
             omx_player2.quit()
-        listOfArgs = ['--no-osd','--no-keys','-b','-o','local'] # local mean audio local, can be replaced with hdmi
+        listOfArgs = ['--no-osd','--no-keys','-b'] # local mean audio local, can be replaced with hdmi
         if(isLoop):
             listOfArgs.append('--loop')
-        omx_player1 = OMXPlayer(Path(path+".mp4"), dbus_name='org.mpris.MediaPlayer2.omxplayer1', args=listOfArgs.append('--display=2'))
-        omx_player2 = OMXPlayer(Path(path+"2.mp4"), dbus_name='org.mpris.MediaPlayer2.omxplayer2', args=listOfArgs.append('--display=7'))
+        omx_player1 = OMXPlayer(Path(path+".mp4"), dbus_name='org.mpris.MediaPlayer2.omxplayer1', args=(listOfArgs.append('--display=2')))
+        omx_player2 = OMXPlayer(Path(path+"2.mp4"), dbus_name='org.mpris.MediaPlayer2.omxplayer2', args=(listOfArgs.append('--display=7')))
         omx_player1.stopEvent += player1Event
         omx_player1.exitEvent += player1Event
 	omx_player2.stopEvent += player2Event
@@ -283,10 +283,11 @@ def main():
     # myip = get_ip()
     print(" ===== OSC SERVER ====")
     myip = "0.0.0.0"
+    myip = get_ip()
     print("IP adress is : "+myip)
     try:
-        server = SimpleServer((myip, 12344))
-        print("server created")
+        server = SimpleServer((myip, 6666))
+        print("server created on port 6666")
     except :
         print(" ERROR : creating server")
         print("Unexpected error:", sys.exc_info()[0])
