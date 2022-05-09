@@ -110,6 +110,7 @@ class SimpleServer(OSCServer):
                 print("Pause video TEST message")
 
 
+
         ############## RPI itself #############
         elif(splitAddress[1] == "rpi"):
             if(splitAddress[2] == "shutdown"):
@@ -150,8 +151,8 @@ def playVideo(videoFileName, isLoop):
         if(isLoop):
             listOfArgs.append('--loop')
         omx_player1  = OMXPlayer(Path(path+".mp4"),dbus_name='org.mpris.MediaPlayer2.omxplayer1',args=listOfArgs)
-        omx_player1.stopEvent += playerEvent
-        omx_player1.exitEvent += playerEvent
+        omx_player1.stopEvent += player1Event
+        omx_player1.exitEvent += player1Event
 
     elif(nbScreen == 2 and fileExist):
         print("Play video : 2 screens")
@@ -164,7 +165,11 @@ def playVideo(videoFileName, isLoop):
             listOfArgs.append('--loop')
         omx_player1 = OMXPlayer(Path(path+".mp4"), dbus_name='org.mpris.MediaPlayer2.omxplayer1', args=listOfArgs.append('--display=2'))
         omx_player2 = OMXPlayer(Path(path+"2.mp4"), dbus_name='org.mpris.MediaPlayer2.omxplayer2', args=listOfArgs.append('--display=7'))
-        #TODO : add event callback here
+        omx_player1.stopEvent += player1Event
+        omx_player1.exitEvent += player1Event
+	omx_player2.stopEvent += player2Event
+        omx_player2.exitEvent += player2Event
+ #TODO : add event callback here
 
 
     else:
