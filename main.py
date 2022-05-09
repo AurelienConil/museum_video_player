@@ -204,9 +204,15 @@ def sendToMaster(adress, arg):
     client_master.send(oscmsg)
 
 def playerEvent(arg1, arg2):
+    global omx_player1
     print("*** This is a player event ***" )
     print(arg1)
     print(arg2)
+    if(omx_player1.can_quit()):
+        print("Player can quit ")
+    else :
+        print("Player can not quit ")
+
 
 
 
