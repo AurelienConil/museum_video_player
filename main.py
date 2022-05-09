@@ -160,14 +160,15 @@ def playVideo(videoFileName, isLoop):
             omx_player1.quit()
         if(not(omx_player2 is None)):
             omx_player2.quit()
-        listOfArgs = ['--no-osd','--no-keys','-b'] # local mean audio local, can be replaced with hdmi
+        listOfArgs1 = ['--no-osd','--no-keys','-b', '--display=2', '-o', 'local'] # local mean audio local, can be replaced with hdmi
+        listOfArgs2 = ['--no-osd','--no-keys','-b', '--display=7']
         if(isLoop):
             listOfArgs.append('--loop')
-        omx_player1 = OMXPlayer(Path(path+".mp4"), dbus_name='org.mpris.MediaPlayer2.omxplayer1', args=(listOfArgs.append('--display=2')))
-        omx_player2 = OMXPlayer(Path(path+"2.mp4"), dbus_name='org.mpris.MediaPlayer2.omxplayer2', args=(listOfArgs.append('--display=7')))
+        omx_player1 = OMXPlayer(Path(path+".mp4"), dbus_name='org.mpris.MediaPlayer2.omxplayer1', args=listOfArgs1)
+        omx_player2 = OMXPlayer(Path(path+"2.mp4"), dbus_name='org.mpris.MediaPlayer2.omxplayer2', args=listOfArgs2)
         omx_player1.stopEvent += player1Event
         omx_player1.exitEvent += player1Event
-	omx_player2.stopEvent += player2Event
+        omx_player2.stopEvent += player2Event
         omx_player2.exitEvent += player2Event
  #TODO : add event callback here
 
