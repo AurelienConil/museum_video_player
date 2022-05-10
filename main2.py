@@ -187,7 +187,7 @@ def get_ip():
 
 def main():
 
-    time.sleep(2)
+    time.sleep(10)
     global userSettingsData
     print(" ===== init settings ====")
     # will ensure any default settings are present in datajson/metadata
