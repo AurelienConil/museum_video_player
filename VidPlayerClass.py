@@ -45,10 +45,8 @@ class VidPlayer():
 
         if(not(self.omxPlayer1 is None)):
             try:
-                if(self.omxPlayer1.can_quit()):
-                    print("omxplayer 1 can quit")
-                    self.omxPlayer1.quit()
-                    print("omxplayer 1 : quit")
+                self.omxPlayer1.quit()
+                print("omxplayer 1 : quit")
             except :
                 print(" ERROR : quitting omxplayer1")
                 print("Unexpected error:", sys.exc_info()[0])
@@ -56,10 +54,8 @@ class VidPlayer():
             
         if(not(self.omxPlayer2 is None)):
             try:
-                if(self.omxPlayer2.can_quit()):
-                    print("omxplayer 2 can quit")
-                    self.omxPlayer2.quit()
-                    print("omxplayer2 quit")
+                self.omxPlayer2.quit()
+                print("omxplayer2 quit")
             except :
                 print(" ERROR : quitting omxplayer2")
                 print("Unexpected error:", sys.exc_info()[0])
