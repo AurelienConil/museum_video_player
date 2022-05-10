@@ -107,7 +107,10 @@ class VidPlayer():
         print("This is the end of the movie")
         if(self.state == self.PLAYINGMAIN):
             print("end of the main movie")
-            self.stop()
+            #self.stop()
+            self.omxPlayer1 = None
+            self.omxPlayer2.quit()
+            self.state = self.WAITING
 
     def printState(self):
         print("VidPlayer state = "+str(self.state))
