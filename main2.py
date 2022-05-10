@@ -125,7 +125,7 @@ def initSettings():
         print("SETTING : default ")
 
     with open(settingsFilePath, 'r') as userFp:
-        userSettingsData = json.load(userFp)
+        userSettingsData = json.load(userFp, encoding='utf-8')
 
 def get_ip():   
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -151,8 +151,10 @@ def main():
     #PLAYLIST
     playlist = []
     try:
-        playlist.append(json.dumps(userSettingsData["playlist"]["mainMediaPath"]))
-        playlist.append(json.dumps(userSettingsData["playlist"]["waitingMediaPath"]))
+        media = VIDEOFILE_PATH+"/"+userSettingsData["playlist"]["mainMediaPath"]
+        playlist.append(media)
+        media = VIDEOFILE_PATH+"/"+userSettingsData["playlist"]["waitingMediaPath"]
+        playlist.append(media)
     
     except :
         print(" ERROR : creating playlist. Error in json file. Try json_tester.py")
@@ -161,7 +163,8 @@ def main():
         sys.exit(0)
     
     print("playlist : ")
-    print(playlist)
+    print(playlist[0])
+    print(playlist[1])
     global vid
     global flagToPlayMain 
     global flagToStop

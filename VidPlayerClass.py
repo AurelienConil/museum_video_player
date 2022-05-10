@@ -67,10 +67,10 @@ class VidPlayer():
         self.omxPlayer1 = None
         self.omxPlayer2 = None
 
-    def playVideo(self,completePath, isLoop):
+    def playVideo(self,path, isLoop):
 
-        fileExist = os.path.exists(completePath)
-        print("PLAY VIDEO FILE path :"+completePath)
+        fileExist = os.path.exists(path+".mp4")
+        print("PLAY VIDEO FILE path :"+path)
         if(fileExist):
             print(" File exist :YES")
         else:
