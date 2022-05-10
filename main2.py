@@ -135,9 +135,16 @@ def reboot():
 def startx():
 
     time.sleep(5)
-    print("========= POWER OFF ======")
-    os.chdir(MAIN_PATH+"/script")
-    subprocess.call(['./startx.sh'])
+    print("========= STARTX ======")
+    launchCmd(MAIN_PATH+"/script" , ["./startx.sh"])
+
+def launchCmd(dir, cmd):
+    try:
+        os.chdir(dir)
+        subprocess.Popen(cmd)
+    except Exception as e:
+        print(" error on running cmd " + str(cmd))
+        print(e)
 
 def sendTestToMaster(arg):
     global client_master
