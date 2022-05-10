@@ -232,7 +232,7 @@ def main():
             vid.stopAll()
             flagToStop = False
         try:
-	    time.sleep(1)
+            time.sleep(1)
         except:
             print("User attempt to close programm")
             runningApp = False
@@ -240,7 +240,7 @@ def main():
     print("Main loop is quit. Closing software")
     # Closing omx instances
     print("STOP video first")
-    vid.stopAll()
+    #vid.stopAll()
     # CLOSING THREAD AND SERVER
     print(" Ending programme")
     server.running = False
