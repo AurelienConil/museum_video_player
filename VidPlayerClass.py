@@ -43,6 +43,14 @@ class VidPlayer():
 
     def stop(self):
 
+        if(not(self.omxPlayer2 is None)):
+            try:
+                self.omxPlayer2.quit()
+                print("omxplayer2 quit")
+            except :
+                print(" ERROR : quitting omxplayer2")
+                print("Unexpected error:", sys.exc_info()[0])
+
         if(not(self.omxPlayer1 is None)):
             try:
                 self.omxPlayer1.quit()
@@ -52,13 +60,7 @@ class VidPlayer():
                 print("Unexpected error:", sys.exc_info()[0])
 
             
-        if(not(self.omxPlayer2 is None)):
-            try:
-                self.omxPlayer2.quit()
-                print("omxplayer2 quit")
-            except :
-                print(" ERROR : quitting omxplayer2")
-                print("Unexpected error:", sys.exc_info()[0])
+
         
         self.omxPlayer1 = None
         self.omxPlayer2 = None
@@ -107,7 +109,7 @@ class VidPlayer():
         print("This is the end of the movie")
         if(self.state == self.PLAYINGMAIN):
             print("end of the main movie")
-            #self.stop()
+            self.stop()
             self.omxPlayer1 = None
             self.omxPlayer2 = None
             self.state = self.WAITING
