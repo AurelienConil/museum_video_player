@@ -92,16 +92,16 @@ class VidPlayer():
 
         elif(self.nbScreen == 2 and fileExist):
             print("Play video : 2 screens")
-            if(not(omx_player1 is None)):
-                omx_player1.quit()
-            if(not(omx_player2 is None)):
-                omx_player2.quit()
+            if(not(self.omxPlayer1 is None)):
+                self.omxPlayer1.quit()
+            if(not(self.omxPlayer2 is None)):
+                self.omxPlayer2.quit()
             listOfArgs1 = ['--no-osd','--no-keys','-b', '--display=2', '-o', 'local'] # local mean audio local, can be replaced with hdmi
             listOfArgs2 = ['--no-osd','--no-keys','-b', '--display=7']
             if(isLoop):
                 listOfArgs.append('--loop')
-            omx_player1 = OMXPlayer(Path(path+".mp4"), dbus_name='org.mpris.MediaPlayer2.omxplayer1', args=listOfArgs1)
-            omx_player2 = OMXPlayer(Path(path+"2.mp4"), dbus_name='org.mpris.MediaPlayer2.omxplayer2', args=listOfArgs2)
+            self.omxPlayer1 = OMXPlayer(Path(path+".mp4"), dbus_name='org.mpris.MediaPlayer2.omxplayer1', args=listOfArgs1)
+            self.omxPlayer2 = OMXPlayer(Path(path+"2.mp4"), dbus_name='org.mpris.MediaPlayer2.omxplayer2', args=listOfArgs2)
             self.omxPlayer1.stopEvent += lambda _, exit_code: self.endOfMovie(exit_code)
             self.omxPlayer1.exitEvent += lambda _, exit_code: self.endOfMovie(exit_code)
         else:
