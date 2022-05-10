@@ -88,6 +88,7 @@ class SimpleServer(OSCServer):
 
             if(splitAddress[2] == "status"):
                 vid.printState()
+		sendToMaster("status", vid.state)
 
             
             if(splitAddress[2] == "stop"):
@@ -147,16 +148,12 @@ def launchCmd(dir, cmd):
         print(e)
 
 def sendTestToMaster(arg):
-    global client_master
-    oscmsg = OSCMessage()
-    oscmsg.setAddress("/test")
-    oscmsg.append(arg)
-    client_master.send(oscmsg)
+    sendToMaster("test", arg)
 
 def sendToMaster(adress, arg):
     global client_master
     oscmsg = OSCMessage()
-    oscmsg.setAddress("/"+adress)
+    oscmsg.setAddress("/"+userSettingsData["identity"]["name"]+"/"+adress)
     oscmsg.append(arg)
     client_master.send(oscmsg)
 
@@ -190,6 +187,7 @@ def get_ip():
 
 def main():
 
+    time.sleep(2)
     global userSettingsData
     print(" ===== init settings ====")
     # will ensure any default settings are present in datajson/metadata
