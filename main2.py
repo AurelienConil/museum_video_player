@@ -115,6 +115,28 @@ class SimpleServer(OSCServer):
                 #setVeille(True) # NOT IMPLETEMED YET
                 #reboot() # NOT IMPLETEMED YET
 
+def powerOff():
+
+    time.sleep(5)
+    print("========= POWER OFF ======")
+    os.chdir(MAIN_PATH+"/script")
+    subprocess.call(['./shutdown.sh'])
+
+
+def reboot():
+
+    time.sleep(5)
+    print("========= POWER OFF ======")
+    os.chdir(MAIN_PATH+"/script")
+    subprocess.call(['./reboot.sh'])
+
+def startx():
+
+    time.sleep(5)
+    print("========= POWER OFF ======")
+    os.chdir(MAIN_PATH+"/script")
+    subprocess.call(['./startx.sh'])
+
 def sendTestToMaster(arg):
     global client_master
     oscmsg = OSCMessage()
