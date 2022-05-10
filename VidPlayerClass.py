@@ -24,15 +24,15 @@ class VidPlayer():
             print("WARNING ! Playlist empty")
 
     def playMain(self):
-        if(len(self.listOfMovies>0)):
-            self.playVideo(self.listOfMovie[0], False)
+        if(len(self.listOfMovies)>0):
+            self.playVideo(self.listOfMovies[0], False)
             self.state = self.PLAYINGMAIN
         else:
             print("ERROR playMain: playlist if empty")
 
     def playSec(self):
-        if(len(self.listOfMovies>1)):
-            self.playVideo(self.listOfMovie[1], False)
+        if(len(self.listOfMovies)>1):
+            self.playVideo(self.listOfMovies[1], False)
             self.state = self.PLAYINGMAIN
         else:
             print("ERROR playMain: playlist if empty")
@@ -114,7 +114,7 @@ class VidPlayer():
             self.stop()
 
     def printState(self):
-        print("VidPlayer state = "+self.state)
+        print("VidPlayer state = "+str(self.state))
 
 
 

@@ -151,8 +151,8 @@ def main():
     #PLAYLIST
     playlist = []
     try:
-        playlist.append(userSettingsData["playlist"]["mainMediaPath"])
-        playlist.append(userSettingsData["playlist"]["waitingMediaPath"])
+        playlist.append(json.dumps(userSettingsData["playlist"]["mainMediaPath"]))
+        playlist.append(json.dumps(userSettingsData["playlist"]["waitingMediaPath"]))
     
     except :
         print(" ERROR : creating playlist. Error in json file. Try json_tester.py")
@@ -160,7 +160,8 @@ def main():
         #Exit or Terminate successfully
         sys.exit(0)
     
-
+    print("playlist : ")
+    print(playlist)
     global vid
     global flagToPlayMain 
     global flagToStop
@@ -172,13 +173,13 @@ def main():
     # myip = get_ip()
     print(" ===== OSC SERVER ====")
     myip = "0.0.0.0"
-    myip = get_ip()
+    #myip = get_ip()
     myport = userSettingsData["in"]["port"]
-    print("IP adress is : "+myip)
+    print("IP adress is : "+myip+" port="+str(myport))
     try:
 
         server = SimpleServer((myip, myport))
-        print("server created on port :"+myport)
+        print("server created on port :"+str(myport))
     except :
         print(" ERROR : creating server")
         print("Unexpected error:", sys.exc_info()[0])
@@ -220,14 +221,15 @@ def main():
         # This is the main loop
     
         # Do something here
+        
+        if(flagToPlayMain):
+            vid.playMain()
+            flagToPlayMain = False # Normalement il faut seulement lire le flag
+        if(flagToStop):
+            vid.stopAll()
+            flagToStop = False
         try:
-            if(flagToPlayMain):
-                vid.playMain()
-                flagToPlayMain = False # Normalement il faut seulement lire le flag
-            if(flagToStop):
-                vid.stopAll()
-                flagToStop = False
-            time.sleep(1)
+	    time.sleep(1)
         except:
             print("User attempt to close programm")
             runningApp = False
