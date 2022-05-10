@@ -79,7 +79,7 @@ class SimpleServer(OSCServer):
                     print("Play main file")
                     flagToPlayMain = True
                     while(vid.state != vid.PLAYINGMAIN):
-                        time.sleep(10)
+                        time.sleep(2)
                     flagToPlayMain = False
                     print("Flag to false")
                 else :
@@ -95,7 +95,7 @@ class SimpleServer(OSCServer):
                     print("Stop all action, go to waiting mode")
                     flagToStop = True
                     while(vid.state != vid.WAITING):
-                        time.sleep(10)
+                        time.sleep(2)
                     flagToStop = False
                     print("Flag to false")
                 else :
@@ -254,7 +254,7 @@ def main():
         if(vid.state == vid.ASKPLAYINGSECOND):
             vid.playSec()
         try:
-            time.sleep(1)
+            time.sleep(5)
         except:
             print("User attempt to close programm")
             runningApp = False

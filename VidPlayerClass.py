@@ -31,6 +31,7 @@ class VidPlayer():
         if(len(self.listOfMovies)>0):
             self.playVideo(self.listOfMovies[0], False) 
             self.state = self.PLAYINGMAIN
+            print("State is now playing")
         else:
             print("ERROR playMain: playlist if empty")
 
