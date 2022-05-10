@@ -243,8 +243,10 @@ def main():
         # Do something here
         
         if(flagToPlayMain):
+            print("Flag to play main open")
             vid.playMain()
         if(flagToStop):
+            print("Flag to play main open")
             vid.stopAll()
             flagToStop = False
         if(vid.state == vid.ASKPLAYINGMAIN):
