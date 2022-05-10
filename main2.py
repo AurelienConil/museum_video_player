@@ -12,7 +12,7 @@ import sys
 from VidPlayerClass import VidPlayer
 
 MAIN_PATH = "/home/pi/Documents/museum_video_player"
-VIDEOFILE_PATH = "/home/pi/Videos" # Long term in fat32 partition
+VIDEOFILE_PATH = "/media/fat32"
 USER_SETTINGS_PATH = VIDEOFILE_PATH+"/settings/userSettings.json" # better close to the video file : fat32 editing
 DEFAULT_SETTINGS_PATH = MAIN_PATH+"/settings/defaultSettings.json"
 
@@ -79,7 +79,7 @@ class SimpleServer(OSCServer):
                     print("Play main file")
                     flagToPlayMain = True
                     while(vid.state != vid.PLAYINGMAIN):
-                        time.sleep(2)
+                        time.sleep(0.2)
                     flagToPlayMain = False
                     print("Flag to false")
                 else :
@@ -95,7 +95,7 @@ class SimpleServer(OSCServer):
                     print("Stop all action, go to waiting mode")
                     flagToStop = True
                     while(vid.state != vid.WAITING):
-                        time.sleep(2)
+                        time.sleep(0.2)
                     flagToStop = False
                     print("Flag to false")
                 else :
@@ -284,7 +284,7 @@ def main():
         if(vid.state == vid.ASKPLAYINGSECOND):
             vid.playSec()
         try:
-            time.sleep(5)
+            time.sleep(1)
         except:
             print("User attempt to close programm")
             runningApp = False
