@@ -75,8 +75,15 @@ class SimpleServer(OSCServer):
         if(splitAddress[1] == "video"):
             
             if(splitAddress[2] == "playmain"):
-                print("Play main file")
-                flagToPlayMain = True
+                if(not(flagToPlayMain)):
+                    print("Play main file")
+                    flagToPlayMain = True
+                    while(vid.state != vid.PLAYINGMAIN):
+                        time.sleep(10)
+                    flagToPlayMain = False
+                    print("Flag to false")
+                else :
+                    print("ERROR Main file already opening")
   
 
             if(splitAddress[2] == "status"):
@@ -84,7 +91,17 @@ class SimpleServer(OSCServer):
 
             
             if(splitAddress[2] == "stop"):
-                flagToStop = True
+                if(not(flagToStop)):
+                    print("Stop all action, go to waiting mode")
+                    flagToStop = True
+                    while(vid.state != vid.WAITING):
+                        time.sleep(10)
+                    flagToStop = False
+                    print("Flag to false")
+                else :
+                    print("ERROR Stop flag already operating")
+
+
         
 
         ############## RPI itself #############
@@ -227,10 +244,13 @@ def main():
         
         if(flagToPlayMain):
             vid.playMain()
-            flagToPlayMain = False # Normalement il faut seulement lire le flag
         if(flagToStop):
             vid.stopAll()
             flagToStop = False
+        if(vid.state == vid.ASKPLAYINGMAIN):
+            vid.playMain()
+        if(vid.state == vid.ASKPLAYINGSECOND):
+            vid.playSec()
         try:
             time.sleep(1)
         except:

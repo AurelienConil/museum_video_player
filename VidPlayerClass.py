@@ -24,18 +24,22 @@ class VidPlayer():
             print("WARNING ! Playlist empty")
 
     def playMain(self):
+
+        if(self.state != self.WAITING ):
+            self.stop()
+
         if(len(self.listOfMovies)>0):
-            self.playVideo(self.listOfMovies[0], False)
+            self.playVideo(self.listOfMovies[0], False) 
             self.state = self.PLAYINGMAIN
         else:
             print("ERROR playMain: playlist if empty")
 
     def playSec(self):
         if(len(self.listOfMovies)>1):
-            self.playVideo(self.listOfMovies[1], False)
-            self.state = self.PLAYINGMAIN
+            self.playVideo(self.listOfMovies[1], False) #loop is made mannually with Event function
+            self.state = self.PLAYINGSECOND
         else:
-            print("ERROR playMain: playlist if empty")
+            print("ERROR play Secondary movie: playlist if empty")
 
     def stopAll(self):
         self.stop()
@@ -106,13 +110,18 @@ class VidPlayer():
             print("ERROR : NbScreen is wrong or file does not exist ! Playing aborted")
 
     def endOfMovie(self, exitCode):
-        print("This is the end of the movie")
+        print("EVENT : This is the end of the movie")
         if(self.state == self.PLAYINGMAIN):
-            print("end of the main movie")
+            print("::end of the main movie")
             self.stop()
-            self.omxPlayer1 = None
-            self.omxPlayer2 = None
-            self.state = self.WAITING
+            self.state = self.ASKPLAYINGSECOND
+        if(self.state == self.PLAYINGSECOND):
+            print("::end of the secondary movie")
+            self.stop()
+            self.state = self.ASKPLAYINGSECOND
+
+
+
 
     def printState(self):
         print("VidPlayer state = "+str(self.state))
