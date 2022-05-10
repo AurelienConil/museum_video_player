@@ -106,14 +106,16 @@ class SimpleServer(OSCServer):
 
         ############## RPI itself #############
         elif(splitAddress[1] == "rpi"):
+            if(splitAddress[2] == "startx"):
+                print("Starting desktop")
+                startx()
             if(splitAddress[2] == "shutdown"):
                 print("Turning off the rpi")
-                #setVeille(True) # NOT IMPLETEMED YET
-                #powerOff() # NOT IMPLETEMED YET
+                powerOff() 
             if(splitAddress[2] == "reboot"):
                 print("Reboot the machine")
                 #setVeille(True) # NOT IMPLETEMED YET
-                #reboot() # NOT IMPLETEMED YET
+                reboot() # 
 
 def powerOff():
 
