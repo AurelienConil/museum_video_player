@@ -246,9 +246,8 @@ def main():
             print("Flag to play main open")
             vid.playMain()
         if(flagToStop):
-            print("Flag to play main open")
+            print("Flag to play stop open")
             vid.stopAll()
-            flagToStop = False
         if(vid.state == vid.ASKPLAYINGMAIN):
             vid.playMain()
         if(vid.state == vid.ASKPLAYINGSECOND):

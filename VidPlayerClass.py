@@ -43,8 +43,8 @@ class VidPlayer():
             print("ERROR play Secondary movie: playlist if empty")
 
     def stopAll(self):
-        self.stop()
         self.state = self.WAITING
+        self.stop()
 
     def stop(self):
 
