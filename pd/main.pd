@@ -1,4 +1,4 @@
-#N canvas 39 434 769 385 12;
+#N canvas 37 74 769 385 12;
 #X obj 243 237 mrpeach/packOSC;
 #X obj 243 263 mrpeach/udpsend;
 #X msg 529 96 disconnect;
@@ -15,17 +15,17 @@
 #X msg 74 159 send /video/test 1;
 #X msg 54 136 send /video/stop;
 #X msg 586 206 port 12345;
-#X msg 559 119 connect 192.168.0.41 12344;
 #X obj 503 304 print OSC_received;
 #X msg 30 105 send /video/start vid;
 #X msg 16 78 send /video/status 0;
+#X msg 559 119 connect 192.168.0.41 6666;
 #X connect 0 0 1 0;
 #X connect 2 0 1 0;
 #X connect 3 0 4 0;
 #X connect 4 0 2 0;
-#X connect 4 1 15 0;
+#X connect 4 1 18 0;
 #X connect 5 0 0 0;
-#X connect 6 0 16 0;
+#X connect 6 0 15 0;
 #X connect 7 0 0 0;
 #X connect 9 0 10 0;
 #X connect 10 0 6 0;
@@ -34,6 +34,6 @@
 #X connect 12 0 0 0;
 #X connect 13 0 0 0;
 #X connect 14 0 10 0;
-#X connect 15 0 1 0;
+#X connect 16 0 0 0;
 #X connect 17 0 0 0;
-#X connect 18 0 0 0;
+#X connect 18 0 1 0;
