@@ -88,7 +88,7 @@ class SimpleServer(OSCServer):
 
             if(splitAddress[2] == "status"):
                 vid.printState()
-		sendToMaster("status", vid.state)
+                sendToMaster("status", vid.state)
 
             
             if(splitAddress[2] == "stop"):
@@ -187,7 +187,8 @@ def get_ip():
 
 def main():
 
-    time.sleep(10)
+    if(isPi):
+        time.sleep(10)
     global userSettingsData
     print(" ===== init settings ====")
     # will ensure any default settings are present in datajson/metadata
@@ -197,9 +198,9 @@ def main():
     #PLAYLIST
     playlist = []
     try:
-        media = VIDEOFILE_PATH+"/"+userSettingsData["playlist"]["mainMediaPath"]
+        media = userSettingsData["playlist"]["mainMediaPath"]
         playlist.append(media)
-        media = VIDEOFILE_PATH+"/"+userSettingsData["playlist"]["waitingMediaPath"]
+        media = userSettingsData["playlist"]["waitingMediaPath"]
         playlist.append(media)
     
     except :
@@ -208,13 +209,18 @@ def main():
         #Exit or Terminate successfully
         sys.exit(0)
     
-    print("playlist : ")
-    print(playlist[0])
-    print(playlist[1])
+    print("==== playlist ===== ")
+    print(VIDEOFILE_PATH+"/"+playlist[0]+".mp4")
+    print(VIDEOFILE_PATH+"/"+playlist[1]+".mp4")
     global vid
     global flagToPlayMain 
     global flagToStop
-    vid = VidPlayer(userSettingsData["video"]["screenNumber"], playlist)
+    isVideoRandom = ("random" in userSettingsData)
+    vid = VidPlayer(userSettingsData["video"]["screenNumber"], playlist, VIDEOFILE_PATH, isVideoRandom)
+    if(isVideoRandom):
+        print("VideoPlayer RANDOM Mode activated")
+        vid.randomNbFolder = userSettingsData["random"]["nbFolder"]
+        vid.setRandom()
     flagToPlayMain = False
     flagToStop = False
 

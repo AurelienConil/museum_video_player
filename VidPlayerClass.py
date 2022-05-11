@@ -1,3 +1,4 @@
+import random
 import sys
 import os
 import platform
@@ -7,29 +8,52 @@ if(isPi):
     from omxplayer.player import OMXPlayer
 
 class VidPlayer():
-    def __init__(self, s, playlist):
+    def __init__(self, s, playlist, videoFilePath, random):
         self.nbScreen = s
         self.WAITING = 0
         self.ASKPLAYINGMAIN = 1
         self.PLAYINGMAIN = 2
-        self.ENDMAIN= 3
+        self.ENDMAIN2DSCREEN= 3
         self.ASKPLAYINGSECOND = 4
         self.PLAYINGSECOND = 5
-        self.ENDSECOND = 6
+        self.ENDSECOND2DSCREEN = 6
         self.state = self.WAITING
         self.omxPlayer1 = None
         self.omxPlayer2 = None
+        self.absolutePath = videoFilePath
         self.listOfMovies = playlist
+        self.isRandom = random
+        self.randomNbFolder = 0
+        self.randomCurrentFolder = 1
         if(len(self.listOfMovies)==0 ):
             print("WARNING ! Playlist empty")
+
+    
+    def setRandom(self):
+        if(self.isRandom and self.randomNbFolder>1):
+            print("Set Random Folder")
+            newRandomFolder = self.randomCurrentFolder
+            while (newRandomFolder== self.randomCurrentFolder):
+                newRandomFolder = random.randint(1,self.randomNbFolder)
+            print("New Random Folder ="+str(newRandomFolder))
+            self.randomCurrentFolder = newRandomFolder
+        else :
+            self.isRandom = False
+            print("ERROR : random folder can't be operated")
 
     def playMain(self):
 
         if(self.state != self.WAITING ):
             self.stop()
 
+        if(self.isRandom):
+            self.setRandom() # randomize only on the main file. Second file has to be link to the first
+
         if(len(self.listOfMovies)>0):
-            self.playVideo(self.listOfMovies[0], False) 
+            if(self.isRandom): 
+                self.playVideo(self.randomCurrentFolder+"/"+self.listOfMovies[0], False)
+            else :
+                self.playVideo(self.listOfMovies[0], False) 
             self.state = self.PLAYINGMAIN
             print("State is now playing")
         else:
@@ -37,7 +61,10 @@ class VidPlayer():
 
     def playSec(self):
         if(len(self.listOfMovies)>1):
-            self.playVideo(self.listOfMovies[1], False) #loop is made mannually with Event function
+            if(self.isRandom):
+                self.playVideo(self.randomCurrentFolder+"/"+self.listOfMovies[1], False)
+            else:
+                self.playVideo(self.listOfMovies[1], False) #loop is made mannually with Event function
             self.state = self.PLAYINGSECOND
         else:
             print("ERROR play Secondary movie: playlist if empty")
@@ -64,14 +91,12 @@ class VidPlayer():
                 print(" ERROR : quitting omxplayer1")
                 print("Unexpected error:", sys.exc_info()[0])
 
-            
-
-        
         self.omxPlayer1 = None
         self.omxPlayer2 = None
 
     def playVideo(self,path, isLoop):
 
+        path = self.absolutePath+"/"+path
         fileExist = os.path.exists(path+".mp4")
         print("PLAY VIDEO FILE path :"+path)
         if(fileExist):
@@ -91,6 +116,7 @@ class VidPlayer():
             self.omxPlayer1 = OMXPlayer(Path(path+".mp4"),dbus_name='org.mpris.MediaPlayer2.omxplayer1',args=listOfArgs)
             self.omxPlayer1.stopEvent += lambda _, exit_code: self.endOfMovie(exit_code)
             self.omxPlayer1.exitEvent += lambda _, exit_code: self.endOfMovie(exit_code)
+            self.omxPlayer2.exitEvent += lambda _, exit_code: self.endOfMovie2dScreen(exit_code)
 
 
         elif(self.nbScreen == 2 and fileExist):
@@ -112,17 +138,24 @@ class VidPlayer():
 
     def endOfMovie(self, exitCode):
         print("EVENT : This is the end of the movie")
+        if(self.state == self.PLAYINGMAIN or self.state ==self.ENDMAIN2DSCREEN):
+            print("::end of the main movie")
+            self.state = self.ASKPLAYINGSECOND
+            self.stop()
+            
+        if(self.state == self.PLAYINGSECOND or self.state == self.ENDSECOND2DSCREEN):
+            print("::end of the secondary movie")
+            self.state = self.ASKPLAYINGSECOND
+            self.stop()
+            
+    def endOfMovie2dScreen(self, exitCode):
+        print("EVENT : This is the end of the movie on 2s screen only")
         if(self.state == self.PLAYINGMAIN):
             print("::end of the main movie")
-            self.stop()
-            self.state = self.ASKPLAYINGSECOND
+            self.omxPlayer2 = None
         if(self.state == self.PLAYINGSECOND):
             print("::end of the secondary movie")
-            self.stop()
-            self.state = self.ASKPLAYINGSECOND
-
-
-
+            self.omxPlayer2 = None
 
     def printState(self):
         print("VidPlayer state = "+str(self.state))
