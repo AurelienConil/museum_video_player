@@ -85,7 +85,7 @@ class VidPlayer():
             if(not(self.omxPlayer1 is None)):
                 self.omxPlayer1.quit()
             
-            listOfArgs = ['--no-osd','--no-keys','-b','-o','local'] # local mean audio local, can be replaced with hdmi
+            listOfArgs = ['--no-osd','--no-keys','-b','-o','hdmi'] # local mean audio local, can be replaced with hdmi
             if(isLoop):
                 listOfArgs.append('--loop')
             self.omxPlayer1 = OMXPlayer(Path(path+".mp4"),dbus_name='org.mpris.MediaPlayer2.omxplayer1',args=listOfArgs)
@@ -99,7 +99,7 @@ class VidPlayer():
                 self.omxPlayer1.quit()
             if(not(self.omxPlayer2 is None)):
                 self.omxPlayer2.quit()
-            listOfArgs1 = ['--no-osd','--no-keys','-b', '--display=2', '-o', 'local'] # local mean audio local, can be replaced with hdmi
+            listOfArgs1 = ['--no-osd','--no-keys','-b', '--display=2', '-o', 'hdmi'] # local mean audio local, can be replaced with hdmi
             listOfArgs2 = ['--no-osd','--no-keys','-b', '--display=7']
             if(isLoop):
                 listOfArgs.append('--loop')
