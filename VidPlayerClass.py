@@ -51,7 +51,7 @@ class VidPlayer():
 
         if(len(self.listOfMovies)>0):
             if(self.isRandom): 
-                self.playVideo(self.randomCurrentFolder+"/"+self.listOfMovies[0], False)
+                self.playVideo(str(self.randomCurrentFolder)+"/"+self.listOfMovies[0], False)
             else :
                 self.playVideo(self.listOfMovies[0], False) 
             self.state = self.PLAYINGMAIN
@@ -62,7 +62,7 @@ class VidPlayer():
     def playSec(self):
         if(len(self.listOfMovies)>1):
             if(self.isRandom):
-                self.playVideo(self.randomCurrentFolder+"/"+self.listOfMovies[1], False)
+                self.playVideo(str(self.randomCurrentFolder)+"/"+self.listOfMovies[1], False)
             else:
                 self.playVideo(self.listOfMovies[1], False) #loop is made mannually with Event function
             self.state = self.PLAYINGSECOND
