@@ -226,6 +226,7 @@ def main():
     print(VIDEOFILE_PATH+"/"+playlist[1]+".mp4")
     global vid
     global flagToPlayMain 
+    global flagToPlayWait 
     global flagToStop
     isVideoRandom = ("random" in userSettingsData)
     vid = VidPlayer(userSettingsData["video"]["screenNumber"], playlist, VIDEOFILE_PATH, isVideoRandom)
@@ -234,6 +235,7 @@ def main():
         vid.randomNbFolder = userSettingsData["random"]["nbFolder"]
         vid.setRandom()
     flagToPlayMain = False
+    flagToPlayWait = False
     flagToStop = False
 
     # OSC SERVER
