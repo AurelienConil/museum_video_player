@@ -114,7 +114,7 @@ class VidPlayer():
             if(isLoop):
                 listOfArgs.append('--loop')
             self.omxPlayer1 = OMXPlayer(Path(path+".mp4"),dbus_name='org.mpris.MediaPlayer2.omxplayer1',args=listOfArgs)
-            self.omxPlayer1.stopEvent += lambda _, exit_code: self.endOfMovie(exit_code)
+            #self.omxPlayer1.stopEvent += lambda _, exit_code: self.endOfMovie(exit_code)
             self.omxPlayer1.exitEvent += lambda _, exit_code: self.endOfMovie(exit_code)
             
 
