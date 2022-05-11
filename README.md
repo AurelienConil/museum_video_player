@@ -14,9 +14,6 @@ sudo apt-get install libdbus-1-dev libdbus-glib-1-dev -y
 sudo pip install omxplayer-wrapper
 ```
 
-
-
-
 # How to clean the console screen
 change  cmdLine.txt and create a backup
 
@@ -77,16 +74,21 @@ Note that port In and Out are part of user settings
 * END SECOND = 6
 
 `/video/playmain` Play the main video
+
 `/video/stop` Stop everything, go to waiting mode
 
 ## RPI
 `/rpi/startx` start X desktop in background
+
 `/rpi/reboot`
+
 `/rpi/shutdown`
 
 ## APP
 `/app/ispi` write on console is machine is considered as raspberry pi arm
+
 `/app/quit`quit app
+
 `/app/test` write test on console and give back OSC test message
 
 
@@ -102,6 +104,8 @@ fat32 is /media/fat32/
 userSettings file has to be : /media/fat32/settings/userSettings.json
 
 # Start automatically vs manually
+## stop app
+ `sudo systemctl stop museum.service`
 ## deactivate autostart
  `sudo systemctl disable museum.service`
 ## activate autostart
@@ -110,8 +114,19 @@ userSettings file has to be : /media/fat32/settings/userSettings.json
 ## Quitting app
 use OSC command /app/quit 
 ## Start mannually the app
-`cd /home/pi/Docuements/museum_video_player`
+`cd /home/pi/Documents/museum_video_player`
+
 `python main2.py`
+
+
+# Test programm
+ ## Test if json is correct
+ `python json_tester.py`
+
+ ## Omxplayer test main.mp4 & wait.mp4 files
+ `python omxplayer_tester.py`  note : sound is not configurated
+
+
  
 
 # Start NDI
