@@ -50,6 +50,7 @@ class SimpleServer(OSCServer):
         global vid
         global flagToStop
         global flagToPlayMain
+        global flagToPlayWait
         print("OSC message received on : "+oscAddress)
         print("data: ")
         print(data)
@@ -81,6 +82,17 @@ class SimpleServer(OSCServer):
                     while(vid.state != vid.PLAYINGMAIN):
                         time.sleep(0.2)
                     flagToPlayMain = False
+                    print("Flag to false")
+                else :
+                    print("ERROR Main file already opening")
+
+            if(splitAddress[2] == "playwait"):
+                if(not(flagToPlayWait )):
+                    print("Play wait file")
+                    flagToPlayWait = True
+                    while(vid.state != vid.PLAYINGSECOND):
+                        time.sleep(0.2)
+                    flagToPlayWait = False
                     print("Flag to false")
                 else :
                     print("ERROR Main file already opening")
@@ -186,7 +198,7 @@ def get_ip():
 
 
 def main():
-
+    print(" MUSEUM : wait 10 seconds to start ...")
     if(isPi):
         time.sleep(10)
     global userSettingsData
@@ -280,6 +292,12 @@ def main():
         if(flagToPlayMain):
             print("Flag to play main open")
             vid.playMain()
+        if(flagToPlayWait):
+            print("Flag to play wait open")
+            if(vid.state == vid.PLAYINGMAIN):
+                vid.stop()
+            if(vid.state == vid.PLAYINGMAIN or vid.state == vid.WAITING ):
+                vid.playSec()
         if(flagToStop):
             print("Flag to play stop open")
             vid.stopAll()
