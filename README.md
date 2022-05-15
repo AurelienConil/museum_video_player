@@ -75,6 +75,8 @@ Note that port In and Out are part of user settings
 
 `/video/playmain` Play the main video
 
+`/video/playwait` Play the secondary video. Works only if state is WAITING or PLAYING MAIN VIDEO
+
 `/video/stop` Stop everything, go to waiting mode
 
 ## RPI
@@ -134,3 +136,29 @@ first start desktop, using keyboard `startx`  or   `/rpi/startx` OSC message
 open a browser, then open _ip_of_raspberry_
 
  
+# Random Mode
+Random mode allows you to play randomly a couple of main.mp4 / wait.mp4
+What is needed ?
+1. Activate random by adding new line on Json file : 
+"random": {
+        "nbFolder": X (where X is a number)
+    }
+2. Add X couples of main.mp4/wait.mp4 located in folder "1" , "2", "3" .... "X"
+3. Check that everything is fine, user `python json_tester.py`
+4. Double check on log when app is starting :
+```
+===== init settings ====
+SETTINGS : user setting
+==== playlist =====
+/media/fat32/main.mp4
+/media/fat32/wait.mp4
+VideoPlayer RANDOM Mode activated
+Set Random Folder
+New Random Folder =3
+ ===== OSC SERVER ====
+ ```
+
+ deactivate Random mode in removing the random key inside the json folder
+
+
+
