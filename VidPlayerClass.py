@@ -69,6 +69,24 @@ class VidPlayer():
         else:
             print("ERROR play Secondary movie: playlist if empty")
 
+    def pause_play(self):
+        if(not(self.omxPlayer2 is None)):
+            try:
+                self.omxPlayer2.play_pause()
+                print("omxplayer2 play/pause")
+            except :
+                print(" ERROR : quitting omxplayer2")
+                print("Unexpected error:", sys.exc_info()[0])
+
+        if(not(self.omxPlayer1 is None)):
+            try:
+                self.omxPlayer1.play_pause()
+                print("omxplayer 1 : play/pause")
+            except :
+                print(" ERROR : quitting omxplayer1")
+                print("Unexpected error:", sys.exc_info()[0])
+
+
     def stopAll(self):
         self.state = self.WAITING
         self.stop()

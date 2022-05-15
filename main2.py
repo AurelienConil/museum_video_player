@@ -102,6 +102,9 @@ class SimpleServer(OSCServer):
                 vid.printState()
                 sendToMaster("status", vid.state)
 
+            if(splitAddress[2] == "pause"):
+                vid.pause_play()
+            
             
             if(splitAddress[2] == "stop"):
                 if(not(flagToStop)):
