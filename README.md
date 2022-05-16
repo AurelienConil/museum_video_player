@@ -71,7 +71,9 @@ Note that port In and Out are part of user settings
 * END MAIN VIDEO = 3
 * ASK PLAYING SECOND = 4
 * PLAYING SECOND VIDEO = 5
-* END SECOND = 6
+* END SECOND 2D SCREEN = 6 ( 2nd screen is over, but the the 1st screen)
+
+note that PAUSE is not a status
 
 `/video/playmain` Play the main video
 

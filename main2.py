@@ -297,19 +297,23 @@ def main():
         if(flagToPlayMain):
             print("Flag to play main open")
             vid.playMain()
+            sendToMaster("status", vid.state)
         if(flagToPlayWait):
             print("Flag to play wait open")
             if(vid.state == vid.PLAYINGMAIN):
                 vid.stop()
             if(vid.state == vid.PLAYINGMAIN or vid.state == vid.WAITING ):
                 vid.playSec()
+                sendToMaster("status", vid.state)
         if(flagToStop):
             print("Flag to play stop open")
             vid.stopAll()
         if(vid.state == vid.ASKPLAYINGMAIN):
             vid.playMain()
+            sendToMaster("status", vid.state)
         if(vid.state == vid.ASKPLAYINGSECOND):
             vid.playSec()
+            sendToMaster("status", vid.state)
         try:
             time.sleep(1)
         except:
