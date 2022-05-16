@@ -2,6 +2,7 @@ import random
 import sys
 import os
 import platform
+import time
 from pathlib import Path
 isPi = not(platform.machine().startswith("x86"))
 if(isPi):
@@ -25,6 +26,8 @@ class VidPlayer():
         self.isRandom = random
         self.randomNbFolder = 0
         self.randomCurrentFolder = 1
+        self.startingTime = 0
+        self.duration = 0
         if(len(self.listOfMovies)==0 ):
             print("WARNING ! Playlist empty")
 
@@ -55,6 +58,8 @@ class VidPlayer():
             else :
                 self.playVideo(self.listOfMovies[0], False) 
             self.state = self.PLAYINGMAIN
+            self.startingTime = time.time()
+            self.duration = self.omxPlayer1.duration()
             print("State is now playing")
         else:
             print("ERROR playMain: playlist if empty")
@@ -66,6 +71,8 @@ class VidPlayer():
             else:
                 self.playVideo(self.listOfMovies[1], False) #loop is made mannually with Event function
             self.state = self.PLAYINGSECOND
+            self.startingTime = time.time()
+            self.duration = self.omxPlayer1.duration()
         else:
             print("ERROR play Secondary movie: playlist if empty")
 
@@ -157,6 +164,10 @@ class VidPlayer():
 
     def endOfMovie(self, exitCode):
         print("EVENT : This is the end of the movie")
+        errorDuration = (time.time()- self.startingTime ) - self.duration
+        print("Movie duration was : "+str(self.duration))
+        print("Real time movie was: "+str((time.time()- self.startingTime )))
+        print("Error duration is: "+str(errorDuration))
         if(self.state == self.PLAYINGMAIN or self.state ==self.ENDMAIN2DSCREEN):
             print("::end of the main movie")
             self.state = self.ASKPLAYINGSECOND
