@@ -23,7 +23,7 @@ if (platform.machine().startswith("x86")):
         #mac os et Aurelien Conil
         MAIN_PATH = "/Users/adminmac/Boulot/JeanGiraudoux/GIT/museum_video_player"
         VIDEOFILE_PATH = "/Users/adminmac/Movies/JeanGiraudoux"
-        USER_SETTINGS_PATH = VIDEOFILE_PATH+"/settings/UserSettings.json" # better close to the video file : fat32 editing
+        USER_SETTINGS_PATH = VIDEOFILE_PATH+"/settings/userSettings.json" # better close to the video file : fat32 editing
         DEFAULT_SETTINGS_PATH = MAIN_PATH+"/settings/defaultSettings.json"
     elif(platform.system() == "Darwin" and getpass.getuser()!='collor_nor'):
         #print("Martin Rossi, tu dois mettre les chemin a l'interrieur du programme python")
@@ -282,7 +282,14 @@ def main():
     mip = userSettingsData["master"]["ip"]
     mport = userSettingsData["master"]["port"]
     print("Client OSC to master | ip: "+mip+"  | port: "+str(mport))
-    client_master.connect((mip, mport))
+    while client_master.address() == None :
+        try: 
+            client_master.connect((mip, mport))
+            print("connected")
+        except Exception as inst:
+            print("OSC Client connection error : ")
+            print(inst)
+        time.sleep(1)
 
     # MAIN LOOP
     global runningApp
