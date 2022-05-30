@@ -248,15 +248,18 @@ def main():
     #myip = get_ip()
     myport = userSettingsData["in"]["port"]
     print("IP adress is : "+myip+" port="+str(myport))
-    try:
+    server = None
+    while server == None :
+        try: 
+            server = SimpleServer((myip, myport))
+            print("Server created on port :"+str(myport))
+        except Exception as inst:
+            print(" ERROR : creating server")
+            print("Unexpected error:", sys.exc_info()[0])
+            print(inst)
+            print("retry now")
+        time.sleep(1)
 
-        server = SimpleServer((myip, myport))
-        print("server created on port :"+str(myport))
-    except :
-        print(" ERROR : creating server")
-        print("Unexpected error:", sys.exc_info()[0])
-        #Exit or Terminate successfully
-        sys.exit(0)
         
     try:
         st = threading.Thread(target=server.serve_forever)
