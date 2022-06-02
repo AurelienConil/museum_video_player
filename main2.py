@@ -201,9 +201,12 @@ def get_ip():
 
 
 def main():
-    print(" MUSEUM : wait 10 seconds to start ...")
+    print("============= ")
+    print(" MUSEUM : WELCOME : starting in 10 sec")
     if(isPi):
         time.sleep(10)
+    print(" started")
+    print("============= ")
     global userSettingsData
     print(" ===== init settings ====")
     # will ensure any default settings are present in datajson/metadata
@@ -286,11 +289,12 @@ def main():
     mport = userSettingsData["master"]["port"]
     print("Client OSC to master | ip: "+mip+"  | port: "+str(mport))
     while client_master.address() == None :
+        print(" (re)try to connect OSC client ...")
         try: 
             client_master.connect((mip, mport))
-            print("connected")
+            print("SUCCESS ")
         except Exception as inst:
-            print("OSC Client connection error : ")
+            print("FAILURE : ")
             print(inst)
         time.sleep(1)
 
