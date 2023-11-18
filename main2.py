@@ -167,10 +167,12 @@ def sendTestToMaster(arg):
 
 def sendToMaster(adress, arg):
     global client_master
+    global mip
+    global mport
     oscmsg = OSCMessage()
     oscmsg.setAddress("/"+userSettingsData["identity"]["name"]+"/"+adress)
     oscmsg.append(arg)
-    client_master.send(oscmsg)
+    client_master.sendto(oscmsg, (mip, mport))
 
 def initSettings():
     global userSettingsData
@@ -285,6 +287,8 @@ def main():
     print(" ===== OSC CLIENT ====")
     global client_master
     client_master = OSCClient()
+    global mip
+    global mport
     mip = userSettingsData["master"]["ip"]
     mport = userSettingsData["master"]["port"]
     print("Client OSC to master | ip: "+mip+"  | port: "+str(mport))
