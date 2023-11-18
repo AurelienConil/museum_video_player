@@ -170,9 +170,19 @@ def sendToMaster(adress, arg):
     global mip
     global mport
     oscmsg = OSCMessage()
+    print(" ===== SEND TO MASTER ====")
+    print(get_ip())
     oscmsg.setAddress("/"+userSettingsData["identity"]["name"]+"/"+adress)
     oscmsg.append(arg)
-    client_master.sendto(oscmsg, (mip, mport))
+    try :
+        client_master.sendto(oscmsg, (mip, mport))
+    except :
+        print("Impossible d'envoyer un message au master")
+
+
+
+
+
 
 def initSettings():
     global userSettingsData
@@ -248,9 +258,11 @@ def main():
 
     # OSC SERVER
     # myip = get_ip()
+    print(" ===== MY IP IS ====")
+    print(get_ip())
+
     print(" ===== OSC SERVER ====")
     myip = "0.0.0.0"
-    #myip = get_ip()
     myport = userSettingsData["in"]["port"]
     print("IP adress is : "+myip+" port="+str(myport))
     server = None
@@ -283,6 +295,9 @@ def main():
 
     print(" OSC server is running")
 
+    print(" ===== MY IP IS ====")
+    print(get_ip())
+
     # OSC CLIENT : send osc message
     print(" ===== OSC CLIENT ====")
     global client_master
@@ -301,6 +316,11 @@ def main():
             print("FAILURE : ")
             print(inst)
         time.sleep(1)
+    
+    client_master.close()
+
+    print(" ===== MY IP IS ====")
+    print(get_ip())
 
     # MAIN LOOP
     global runningApp
