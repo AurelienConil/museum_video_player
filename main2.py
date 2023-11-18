@@ -166,7 +166,8 @@ def sendTestToMaster(arg):
     sendToMaster("test", arg)
 
 def sendToMaster(adress, arg):
-    global client_master
+    #global client_master
+    client_master = OSCClient()
     global mip
     global mport
     oscmsg = OSCMessage()
@@ -304,24 +305,25 @@ def main():
 
     # OSC CLIENT : send osc message
     print(" ===== OSC CLIENT ====")
-    global client_master
-    client_master = OSCClient()
+    #global client_master
+    #client_master = OSCClient()
     global mip
     global mport
     mip = userSettingsData["master"]["ip"]
     mport = userSettingsData["master"]["port"]
-    print("Client OSC to master | ip: "+mip+"  | port: "+str(mport))
-    while client_master.address() == None :
-        print(" (re)try to connect OSC client ...")
-        try: 
-            client_master.connect((mip, mport))
-            print("SUCCESS ")
-        except Exception as inst:
-            print("FAILURE : ")
-            print(inst)
-        time.sleep(1)
     
-    client_master.close()
+    # print("Client OSC to master | ip: "+mip+"  | port: "+str(mport))
+    # while client_master.address() == None :
+    #     print(" (re)try to connect OSC client ...")
+    #     try: 
+    #         client_master.connect((mip, mport))
+    #         print("SUCCESS ")
+    #     except Exception as inst:
+    #         print("FAILURE : ")
+    #         print(inst)
+    #     time.sleep(1)
+    
+    # client_master.close()
 
     print(" ===== MY IP IS ====")
     print(get_ip())
