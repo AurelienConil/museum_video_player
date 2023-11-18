@@ -172,7 +172,9 @@ def sendToMaster(adress, arg):
     oscmsg = OSCMessage()
     print(" ===== SEND TO MASTER ====")
     print(get_ip())
-    oscmsg.setAddress("/"+userSettingsData["identity"]["name"]+"/"+adress)
+    finalAddress = "/"+userSettingsData["identity"]["name"]+"/"+adress
+    oscmsg.setAddress(finalAddress)
+    print("msg adress : "+finalAddress)
     oscmsg.append(arg)
     try :
         client_master.sendto(oscmsg, (mip, mport))
